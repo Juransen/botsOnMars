@@ -4,7 +4,7 @@ import asyncio
 import discord
 import random
 import keys_tokens
-
+#----------- file opening--------------------------------------------------------#
 try:
     with open("users.txt", "r") as users_file:  # r = read
         users = users_file.readlines()
@@ -29,7 +29,7 @@ except FileNotFoundError:
     users = []
 public_file = open("publicly_response.txt", "a")  # a = append
 
-
+#-------------------------Methods------------------------------------------------------#
 
 
 def add_user(user):
