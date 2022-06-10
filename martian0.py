@@ -11,15 +11,33 @@ try:
         print(str(users))
 except FileNotFoundError:
     users = []
-file = open("users.txt", "a")  # a = append
+user_file = open("users.txt", "a")  # a = append
+
+try:
+    with open("private_response.txt", "r") as private_file:  # r = read
+        users = private_file.readlines()
+        print(str(users))
+except FileNotFoundError:
+    users = []
+private_file = open("private_response.txt", "a")  # a = append
+
+try:
+    with open("publicly_response.txt", "r") as public_file:  # r = read
+        users = public_file.readlines()
+        print(str(users))
+except FileNotFoundError:
+    users = []
+public_file = open("publicly_response.txt", "a")  # a = append
+
+
 
 
 def add_user(user):
     if not str(user) in users:
-        file.writelines(str(user) + "\n")
+        user_file.writelines(str(user) + "\n")
         users.append(str(user))
         print(str(user) + " added")
-        file.flush()
+        user_file.flush()
     else:
         print(str(user) + " already exists")
 
