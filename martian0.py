@@ -11,15 +11,15 @@ try:
         print(str(users))
 except FileNotFoundError:
     users = []
-f = open("users.txt", "a")  # a = append
+file = open("users.txt", "a")  # a = append
 
 
 def add_user(user):
     if not str(user) in users:
-        f.writelines(str(user) + "\n")
+        file.writelines(str(user) + "\n")
         users.append(str(user))
         print(str(user) + " added")
-        f.flush()
+        file.flush()
     else:
         print(str(user) + " already exists")
 
@@ -48,13 +48,21 @@ class MyClient(discord.Client):
                 if i.author.bot and not i.author == client.user:
                     await i.delete()
 
-        if message.content.startswith("gang"):
+        #------------------user in Fraktionsliste eintragen------------------------------------#
+        if message.content.startswith("fraction"):
             if str(message.channel.type) != "private":
-                await message.author.send("Willst du in die Gang? Dann antworte mit GANG")
+                await message.author.send("Du willst also einer Fraktion beitreten? :face_with_monocle:")
+
+            if message.content.startswith("Ja") or message.content.startswith("ja"):
+                async with message.channel.typing():
+                    await asyncio.sleep(5)
+                await message.author.send("Du hast die Wahl! wähle weise!")
+
+        #TODO: Fraktionslisten erstellen und eintragen lassen. Rollenverteilung implementieren
 
         if message.content.lower() == "gang" and str(message.channel.type) == "private":
             add_user(message.author)
-
+        #----------------------------------Bullshit---------------------------------------------------#
         if message.content == "!":
             async with message.channel.typing():
                 await asyncio.sleep(2)
@@ -63,9 +71,23 @@ class MyClient(discord.Client):
         if message.content == "dab!":
             await message.channel.send("https://media.giphy.com/media/d4blihcFNkwE3fEI/giphy.gif")
 
+        #-------------------------private chanel-----------------------------------------------------#
+
         if message.content.startswith("martian"):
-            await message.channel.send('waaas geht?')
-            await message.author.send('du hast mich erwähnt, jetzt spam ich mal kurz')
+            await message.channel.send('Hier ist einer!')
+            await message.author.send('du hast mich erwähnt, jetzt können wir bisschen spaß zu zweit haben ;)\n'
+                                      'meine Möglichkeiten sind begrenzt du musst mir also was beibringen.\n'
+                                      'Wähle meine Modi:\n1: lernmodus für Antworten\n2: lernmodus für Öffentliche Antworten\n'
+                                      '3: Kein Bock drauf')
+            response = message.content
+            match (response):
+                case 1: await message.author.send("lernmodus für Antworten")
+
+                case 2: await message.author.send("lernmodus für Öffentliche Antworten")
+
+                case 3: await message.author.send("ok dann halt nicht, Arschloch :P")
+
+
 
         # ----------------Löschen von Nachrichten-----------------------------------------------------------------------
         if message.content.startswith("delete") or message.content.startswith("Delete"):
